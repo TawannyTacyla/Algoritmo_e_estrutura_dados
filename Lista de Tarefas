@@ -1,7 +1,5 @@
-# Lista onde serão armazenadas as tarefas
 tarefas = []
 
-# Função para exibir todas as tarefas
 def ver_tarefas():
     if not tarefas:
         print("Nenhuma tarefa na lista.")
@@ -12,13 +10,11 @@ def ver_tarefas():
             print(f"{i}. {tarefa['descricao']} - {status}")
         print()
 
-# Função para adicionar nova tarefa
 def adicionar_tarefa():
     descricao = input("Digite a descrição da tarefa: ")
     tarefas.append({'descricao': descricao, 'concluida': False})
     print("Tarefa adicionada com sucesso!")
 
-# Função para remover tarefa pelo índice
 def remover_tarefa():
     ver_tarefas()
     try:
@@ -28,7 +24,6 @@ def remover_tarefa():
     except (IndexError, ValueError):
         print("Índice inválido.")
 
-# Função para marcar uma tarefa como concluída
 def concluir_tarefa():
     ver_tarefas()
     try:
@@ -38,7 +33,6 @@ def concluir_tarefa():
     except (IndexError, ValueError):
         print("Índice inválido.")
 
-# Função para salvar tarefas em um arquivo
 def salvar_em_arquivo():
     with open("tarefas.txt", "w", encoding="utf-8") as arquivo:
         for tarefa in tarefas:
@@ -46,7 +40,6 @@ def salvar_em_arquivo():
             arquivo.write(f"{status};{tarefa['descricao']}\n")
     print("Tarefas salvas em 'tarefas.txt'.")
 
-# Função para carregar tarefas de um arquivo
 def carregar_do_arquivo():
     try:
         with open("tarefas.txt", "r", encoding="utf-8") as arquivo:
@@ -58,9 +51,8 @@ def carregar_do_arquivo():
     except FileNotFoundError:
         print("Arquivo de tarefas não encontrado. Nenhuma tarefa carregada.")
 
-# Menu principal com loop while
 def menu():
-    carregar_do_arquivo()  # Carrega automaticamente ao iniciar
+    carregar_do_arquivo() 
     while True:
         print("\n===== MENU TO-DO LIST =====")
         print("1. Ver tarefas")
@@ -83,11 +75,10 @@ def menu():
         elif opcao == "5":
             salvar_em_arquivo()
         elif opcao == "6":
-            salvar_em_arquivo()  # Salva antes de sair
+            salvar_em_arquivo()  
             print("Saindo... Até logo!")
             break
         else:
             print("Opção inválida. Tente novamente.")
 
-# Executa o programa
 menu()
