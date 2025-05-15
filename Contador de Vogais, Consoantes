@@ -1,0 +1,27 @@
+# Contador de Vogais e Consoantes
+
+# Solicita uma frase do usuário
+frase = input("Digite uma frase: ").lower()
+
+# Define os conjuntos de vogais e consoantes
+vogais = "aeiou"
+consoantes = "bcdfghjklmnpqrstvwxyz"
+
+# Inicializa as contagens
+qtd_vogais = 0
+qtd_consoantes = 0
+qtd_outros = 0
+
+# Percorre cada caractere da frase
+for caractere in frase:
+    if caractere in vogais:
+        qtd_vogais += 1
+    elif caractere in consoantes:
+        qtd_consoantes += 1
+    else:
+        qtd_outros += 1  # espaços, números, símbolos, etc.
+
+# Exibe os resultados
+print(f"\nQuantidade de vogais: {qtd_vogais}")
+print(f"Quantidade de consoantes: {qtd_consoantes}")
+print(f"Outros caracteres (incluindo espaços e sinais): {qtd_outros}")
