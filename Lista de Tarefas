@@ -1,0 +1,93 @@
+# Lista onde serão armazenadas as tarefas
+tarefas = []
+
+# Função para exibir todas as tarefas
+def ver_tarefas():
+    if not tarefas:
+        print("Nenhuma tarefa na lista.")
+    else:
+        print("\nTarefas:")
+        for i, tarefa in enumerate(tarefas):
+            status = "✔️ Concluída" if tarefa['concluida'] else "⏳ Pendente"
+            print(f"{i}. {tarefa['descricao']} - {status}")
+        print()
+
+# Função para adicionar nova tarefa
+def adicionar_tarefa():
+    descricao = input("Digite a descrição da tarefa: ")
+    tarefas.append({'descricao': descricao, 'concluida': False})
+    print("Tarefa adicionada com sucesso!")
+
+# Função para remover tarefa pelo índice
+def remover_tarefa():
+    ver_tarefas()
+    try:
+        indice = int(input("Digite o índice da tarefa a remover: "))
+        tarefa_removida = tarefas.pop(indice)
+        print(f"Tarefa '{tarefa_removida['descricao']}' removida.")
+    except (IndexError, ValueError):
+        print("Índice inválido.")
+
+# Função para marcar uma tarefa como concluída
+def concluir_tarefa():
+    ver_tarefas()
+    try:
+        indice = int(input("Digite o índice da tarefa a marcar como concluída: "))
+        tarefas[indice]['concluida'] = True
+        print(f"Tarefa '{tarefas[indice]['descricao']}' marcada como concluída.")
+    except (IndexError, ValueError):
+        print("Índice inválido.")
+
+# Função para salvar tarefas em um arquivo
+def salvar_em_arquivo():
+    with open("tarefas.txt", "w", encoding="utf-8") as arquivo:
+        for tarefa in tarefas:
+            status = "1" if tarefa['concluida'] else "0"
+            arquivo.write(f"{status};{tarefa['descricao']}\n")
+    print("Tarefas salvas em 'tarefas.txt'.")
+
+# Função para carregar tarefas de um arquivo
+def carregar_do_arquivo():
+    try:
+        with open("tarefas.txt", "r", encoding="utf-8") as arquivo:
+            tarefas.clear()
+            for linha in arquivo:
+                status, descricao = linha.strip().split(";", 1)
+                tarefas.append({'descricao': descricao, 'concluida': status == "1"})
+        print("Tarefas carregadas com sucesso.")
+    except FileNotFoundError:
+        print("Arquivo de tarefas não encontrado. Nenhuma tarefa carregada.")
+
+# Menu principal com loop while
+def menu():
+    carregar_do_arquivo()  # Carrega automaticamente ao iniciar
+    while True:
+        print("\n===== MENU TO-DO LIST =====")
+        print("1. Ver tarefas")
+        print("2. Adicionar tarefa")
+        print("3. Remover tarefa")
+        print("4. Marcar tarefa como concluída")
+        print("5. Salvar tarefas")
+        print("6. Sair")
+        
+        opcao = input("Escolha uma opção (1-6): ")
+
+        if opcao == "1":
+            ver_tarefas()
+        elif opcao == "2":
+            adicionar_tarefa()
+        elif opcao == "3":
+            remover_tarefa()
+        elif opcao == "4":
+            concluir_tarefa()
+        elif opcao == "5":
+            salvar_em_arquivo()
+        elif opcao == "6":
+            salvar_em_arquivo()  # Salva antes de sair
+            print("Saindo... Até logo!")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+# Executa o programa
+menu()
