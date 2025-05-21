@@ -1,20 +1,27 @@
 import unicodedata
 
+# Função para remover acentos da frase
+
 def remover_acentos(texto):
-    return ''.join(
-        c for c in unicodedata.normalize('NFD', texto)
-        if unicodedata.category(c) != 'Mn'
+    texto_normalizado = unicodedata.normalize('NFD', texto)
+    texto_sem_acentos = ''.join(
+        letra for letra in texto_normalizado
+        if unicodedata.category(letra) != 'Mn'
     )
+    return texto_sem_acentos
+
+# Função que verifica se a frase é um palíndromo
 
 def eh_palindromo(frase):
-    frase = frase.lower()
-    frase = remover_acentos(frase)
-    frase = ''.join(frase.split())
-    return frase == frase[::-1]
+    frase = frase.lower()  # Coloca tudo em minúsculo
+    frase = remover_acentos(frase)  # Remove acentos
+    frase = ''.join(frase.split())  # Tira os espaços
+    return frase == frase[::-1]  # Compara com ela mesma ao contrário
 
 def main():
-    frase = input("Digite uma palavra ou frase: ")
-    if eh_palindromo(frase):
+    entrada = input("Digite uma palavra ou frase: ")
+
+    if eh_palindromo(entrada):
         print("✅ É um palíndromo!")
     else:
         print("❌ Não é um palíndromo.")
