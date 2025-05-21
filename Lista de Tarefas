@@ -1,84 +1,93 @@
 tarefas = []
+nome_da_lista = "Tarefas Diárias"
+
 
 def ver_tarefas():
     if not tarefas:
-        print("Nenhuma tarefa na lista.")
+        print(f"Nenhuma tarefa em '{nome_da_lista}'.")
     else:
-        print("\nTarefas:")
+        print(f"\n📋 {nome_da_lista}:")
         for i, tarefa in enumerate(tarefas):
-            status = "✔️ Concluída" if tarefa['concluida'] else "⏳ Pendente"
+            status = "✔️ Feita" if tarefa['concluida'] else "⏳ Pendente"
             print(f"{i}. {tarefa['descricao']} - {status}")
         print()
 
+
 def adicionar_tarefa():
-    descricao = input("Digite a descrição da tarefa: ")
-    tarefas.append({'descricao': descricao, 'concluida': False})
-    print("Tarefa adicionada com sucesso!")
+    desc = input("O que você precisa fazer? ")
+    tarefas.append({'descricao': desc, 'concluida': False})
+    print("Tarefa adicionada!")
+
 
 def remover_tarefa():
     ver_tarefas()
     try:
-        indice = int(input("Digite o índice da tarefa a remover: "))
-        tarefa_removida = tarefas.pop(indice)
-        print(f"Tarefa '{tarefa_removida['descricao']}' removida.")
-    except (IndexError, ValueError):
-        print("Índice inválido.")
+        i = int(input("Qual tarefa você quer remover? (número): "))
+        removida = tarefas.pop(i)
+        print(f"'{removida['descricao']}' foi removida.")
+    except (ValueError, IndexError):
+        print("Número inválido. Tente de novo.")
+
 
 def concluir_tarefa():
     ver_tarefas()
     try:
-        indice = int(input("Digite o índice da tarefa a marcar como concluída: "))
-        tarefas[indice]['concluida'] = True
-        print(f"Tarefa '{tarefas[indice]['descricao']}' marcada como concluída.")
-    except (IndexError, ValueError):
-        print("Índice inválido.")
+        i = int(input("Qual tarefa você concluiu? (número): "))
+        tarefas[i]['concluida'] = True
+        print(f"Boa! '{tarefas[i]['descricao']}' marcada como feita!")
+    except (ValueError, IndexError):
+        print("Número inválido. Tente de novo.")
+
 
 def salvar_em_arquivo():
-    with open("tarefas.txt", "w", encoding="utf-8") as arquivo:
+    with open("tarefas.txt", "w", encoding="utf-8") as f:
         for tarefa in tarefas:
             status = "1" if tarefa['concluida'] else "0"
-            arquivo.write(f"{status};{tarefa['descricao']}\n")
-    print("Tarefas salvas em 'tarefas.txt'.")
+            f.write(f"{status};{tarefa['descricao']}\n")
+    print("Lista salva com sucesso.")
+
 
 def carregar_do_arquivo():
     try:
-        with open("tarefas.txt", "r", encoding="utf-8") as arquivo:
+        with open("tarefas.txt", "r", encoding="utf-8") as f:
             tarefas.clear()
-            for linha in arquivo:
-                status, descricao = linha.strip().split(";", 1)
-                tarefas.append({'descricao': descricao, 'concluida': status == "1"})
-        print("Tarefas carregadas com sucesso.")
+            for linha in f:
+                status, desc = linha.strip().split(";", 1)
+                tarefas.append({'descricao': desc, 'concluida': status == "1"})
+        print("Lista carregada.")
     except FileNotFoundError:
-        print("Arquivo de tarefas não encontrado. Nenhuma tarefa carregada.")
+        print("Nenhum arquivo encontrado. Começando do zero.")
+
 
 def menu():
-    carregar_do_arquivo() 
-    while True:
-        print("\n===== MENU TO-DO LIST =====")
-        print("1. Ver tarefas")
-        print("2. Adicionar tarefa")
-        print("3. Remover tarefa")
-        print("4. Marcar tarefa como concluída")
-        print("5. Salvar tarefas")
-        print("6. Sair")
-        
-        opcao = input("Escolha uma opção (1-6): ")
+    carregar_do_arquivo()
 
-        if opcao == "1":
+    while True:
+        print(f"\n===== {nome_da_lista.upper()} =====")
+        print("1. Ver tarefas")
+        print("2. Adicionar nova tarefa")
+        print("3. Remover tarefa")
+        print("4. Marcar como concluída")
+        print("5. Salvar lista")
+        print("6. Sair")
+
+        escolha = input("Escolha uma opção (1-6): ")
+
+        if escolha == "1":
             ver_tarefas()
-        elif opcao == "2":
+        elif escolha == "2":
             adicionar_tarefa()
-        elif opcao == "3":
+        elif escolha == "3":
             remover_tarefa()
-        elif opcao == "4":
+        elif escolha == "4":
             concluir_tarefa()
-        elif opcao == "5":
+        elif escolha == "5":
             salvar_em_arquivo()
-        elif opcao == "6":
-            salvar_em_arquivo()  
-            print("Saindo... Até logo!")
+        elif escolha == "6":
+            salvar_em_arquivo()
+            print("Obrigado por usar sua lista! Até logo 👋")
             break
         else:
-            print("Opção inválida. Tente novamente.")
+            print("Opção inválida, tenta de novo.")
 
 menu()
