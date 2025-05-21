@@ -1,10 +1,20 @@
-# Gerador de Tabuada
+# Gerador simples de tabuada
 
-# Solicita ao usuário um número
-numero = int(input("Digite um número para ver sua tabuada: "))
+print("📘 Bem-vindo ao gerador de tabuada!")
+print("-" * 35)
 
-# Exibe a tabuada de 1 a 10
-print(f"\nTabuada do {numero}:\n" + "-"*20)
-for i in range(1, 11):
-    resultado = numero * i
-    print(f"{numero} x {i:2} = {resultado}")
+try:
+    numero = int(input("👉 Digite um número inteiro para ver a tabuada do mesmo: "))
+
+    print(f"\n Tabuada do {numero}")
+    print("-" * 25)
+
+    for i in range(1, 11):
+        print(f"{numero} x {i:2} = {numero * i}")
+
+    print("-" * 25)
+    print("✅ Pronto! Espero que tenha ajudado.")
+
+except ValueError:
+    print("⚠️ Por favor, digite um número inteiro válido.")
+
